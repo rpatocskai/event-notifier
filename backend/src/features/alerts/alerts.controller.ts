@@ -7,70 +7,27 @@ import {
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
-import { NotificationResult } from '../notifications/interfaces/notification-provider.interface.js';
-import { NotificationEngine } from '../notifications/interfaces/notification.engine.js';
 import { AlertsRepository } from './alerts.repository.js';
-import { IngestedEvent, AlertRule } from './domain/alert.types.js';
-import { IngestEventDto } from './dto/ingest-event.dto.js';
+import { CreateAlertDto } from './dto/create-alert.dto.js';
+import { AlertRule } from './domain/alert.types.js';
 
 @Controller('api')
 export class AlertsController {
   private readonly logger = new Logger(AlertsController.name);
+  private readonly alertsRepository = new AlertsRepository(); // Vagy constructor inject, globalThis-szel mindegy
 
-  constructor(
-    private readonly alertsRepository: AlertsRepository,
-    private readonly notificationEngine: NotificationEngine,
-  ) {}
-
-  /**
-   * Külső események fogadása (Ingestion API)
-   * Feltérképezi a szabályokat és triggereli az értesítéseket.
-   */
-  @Post('events/ingest')
-  @HttpCode(HttpStatus.OK)
-  async ingestEvent(@Body() dto: IngestEventDto): Promise<{
-    triggeredRulesCount: number;
-    dispatches: NotificationResult[];
-  }> {
-    this.logger.log(
-      `Received incoming event for ingestion: [${dto.category}] ${dto.title}`,
-    );
-
-    // Konvertálás belső IngestedEvent formátumra
-    const event: IngestedEvent = {
-      id: crypto.randomUUID(),
-      category: dto.category,
-      title: dto.title,
-      message: dto.message,
-      metadata: dto.metadata,
-      timestamp: new Date(),
-    };
-
-    // 1. Megkeressük az összes aktív szabályt, ami erre a kategóriára iratkozott fel
-    const matchingRules: AlertRule[] =
-      await this.alertsRepository.findByCategory(event.category);
-    this.logger.log(
-      `Found ${matchingRules.length} matching active alert rules for category ${event.category}`,
-    );
-
-    // 2. Minden találatra lefuttatjuk a Notification Engine-t
-    const allDispatches: NotificationResult[] = [];
-    for (const rule of matchingRules) {
-      const results = await this.notificationEngine.processAlert(rule, event);
-      allDispatches.push(...results);
-    }
-
-    return {
-      triggeredRulesCount: matchingRules.length,
-      dispatches: allDispatches,
-    };
+  @Post('alerts')
+  @HttpCode(HttpStatus.CREATED)
+  async createRule(@Body() dto: CreateAlertDto): Promise<AlertRule> {
+    this.logger.log(`API POST triggered for creating rule: ${dto.name}`);
+    // A repository létrehozza és berakja a globalThis-be
+    return await this.alertsRepository.create(dto);
   }
 
-  /**
-   * Segéd-végpont az aktív szabályok listázásához (Frontend által lesz használva)
-   */
   @Get('alerts')
   async getAllRules(): Promise<AlertRule[]> {
-    return this.alertsRepository.findAll();
+    this.logger.log('API GET triggered for fetching all rules');
+    // ✨ GARANTÁLTAN A TELJES LISTÁT ADJA VISSZA
+    return await this.alertsRepository.findAll();
   }
 }

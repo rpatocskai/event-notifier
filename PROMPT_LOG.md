@@ -144,3 +144,15 @@
 - **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán 3-mas mérföldkő elkezdése
 
 ---
+
+### 🤖 Prompt #11
+
+> Jelenleg a Cors policy nem lett beállítva ezt állítsuk be, valamint custom üzeneteket, nem képes a rendszer kezelni, ezeket orvosoljuk customMessage property felvétele és ennek helyes kezelése in memory
+
+### 🔍 AI Válasz Kiértékelése & Korrekció
+
+- **Mi volt jó:** Listázó implementáció és workspace átalakítás.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** controller javítása halucináció miatt default listát adott csak vissza
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán 3-mas mérföldkő elkezdése
+
+---

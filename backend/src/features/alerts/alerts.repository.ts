@@ -4,53 +4,84 @@ import {
   EventCategory,
   NotificationChannel,
 } from './domain/alert.types.js';
+import { CreateAlertDto } from './dto/create-alert.dto.js';
 
 @Injectable()
 export class AlertsRepository {
-  // In-memory adattároló
-  private readonly alertRules: Map<string, AlertRule> = new Map();
-
   constructor() {
-    // Seedelünk néhány alapértelmezett adatot a könnyebb tesztelhetőség kedvéért
-    this.seedDefaultRules();
+    // 🚨 ATOMBIZTOS MEGOLDÁS: A globális Node.js környezetbe ágyazzuk a Store-t.
+    // Így garantáltan egyetlen közös Map létezik az egész futó alkalmazásban!
+    const globalStore = (globalThis as any).__sonrisaAlertRulesStore;
+
+    if (!globalStore) {
+      (globalThis as any).__sonrisaAlertRulesStore = new Map<
+        string,
+        AlertRule
+      >();
+      this.seedDefaultRules();
+    }
   }
 
-  async create(rule: Omit<AlertRule, 'id' | 'createdAt'>): Promise<AlertRule> {
+  // Segéd-getter, hogy kényelmesen elérjük a globális perzisztens tárolót
+  private get store(): Map<string, AlertRule> {
+    return (globalThis as any).__sonrisaAlertRulesStore;
+  }
+
+  async create(rule: CreateAlertDto): Promise<AlertRule> {
+    const ruleName =
+      rule.name && rule.name.trim() !== ''
+        ? rule.name.trim()
+        : `Unnamed Alert (${rule.category})`;
+
     const newRule: AlertRule = {
-      ...rule,
       id: crypto.randomUUID(),
+      name: ruleName,
+      category: rule.category,
+      channels: rule.channels,
+      isActive: true,
       createdAt: new Date(),
     };
-    this.alertRules.set(newRule.id, newRule);
+
+    // Írás a globális, szétválaszthatatlan tárolóba
+    this.store.set(newRule.id, newRule);
     return newRule;
   }
 
   async findAll(): Promise<AlertRule[]> {
-    return Array.from(this.alertRules.values());
+    // Olvasás ugyanabból a globális tárolóból
+    return Array.from(this.store.values());
   }
 
   async findByCategory(category: EventCategory): Promise<AlertRule[]> {
-    return this.findAll().then((rules) =>
-      rules.filter((rule) => rule.category === category && rule.isActive),
-    );
+    const rules = await this.findAll();
+    return rules.filter((rule) => rule.category === category && rule.isActive);
   }
 
   async delete(id: string): Promise<boolean> {
-    return this.alertRules.delete(id);
+    return this.store.delete(id);
   }
 
   private seedDefaultRules(): void {
-    this.create({
+    const default1: AlertRule = {
+      id: crypto.randomUUID(),
       name: 'Default Stock Alert',
       category: EventCategory.MARKET_MOVEMENT,
       channels: [NotificationChannel.EMAIL, NotificationChannel.SLACK],
       isActive: true,
-    });
-    this.create({
+      createdAt: new Date(),
+    };
+
+    const default2: AlertRule = {
+      id: crypto.randomUUID(),
       name: 'Global Emergency Monitor',
       category: EventCategory.NATURAL_DISASTER,
       channels: [NotificationChannel.EMAIL],
       isActive: true,
-    });
+      createdAt: new Date(),
+    };
+
+    // Legelső induláskor feltöltjük a globális tárolót
+    (globalThis as any).__sonrisaAlertRulesStore.set(default1.id, default1);
+    (globalThis as any).__sonrisaAlertRulesStore.set(default2.id, default2);
   }
 }
