@@ -1,6 +1,8 @@
 import { Inject, Module, OnModuleInit } from '@nestjs/common';
 import { NotificationEngine } from './interfaces/notification.engine.js';
 import { NotificationProvider } from './interfaces/notification-provider.interface.js';
+import { EmailNotificationProvider } from './strategies/email.strategy.js';
+import { SlackNotificationProvider } from './strategies/slack.strategy.js';
 
 // Token a providerek DI-ben való azonosítására
 export const NOTIFICATION_PROVIDERS_TOKEN = Symbol(
@@ -10,11 +12,18 @@ export const NOTIFICATION_PROVIDERS_TOKEN = Symbol(
 @Module({
   providers: [
     NotificationEngine,
+    EmailNotificationProvider,
+    SlackNotificationProvider,
     {
-      // Itt injektáljuk be a tömböt, ami a konkrét Email és Slack osztályokat fogja tartalmazni
-      // TODO #7
       provide: NOTIFICATION_PROVIDERS_TOKEN,
-      useValue: [], // Ideiglenesen üres, amíg a konkrét stratégiák el nem készülnek
+      // A NestJS-nek megmondjuk, hogy gyűjtse össze a két külön osztályná példányosított providert egy tömbbe
+      useFactory: (
+        email: EmailNotificationProvider,
+        slack: SlackNotificationProvider,
+      ): NotificationProvider[] => {
+        return [email, slack];
+      },
+      inject: [EmailNotificationProvider, SlackNotificationProvider],
     },
   ],
   exports: [NotificationEngine],
