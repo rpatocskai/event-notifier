@@ -71,12 +71,26 @@
 
 ### 🤖 Prompt #6
 
-> Implement Implement Email and Slack Providers kidolgozását kezdjük el
+> Implement Email and Slack Providers kidolgozását kezdjük el
 
 ### 🔍 AI Válasz Kiértékelése & Korrekció
 
-- **Mi volt jó:** Legenerálta a legenerálta a strategy file-kat.
+- **Mi volt jó:** Legenerálta a strategy file-kat.
 - **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** Bekötöttem a moduleba a strategy-ket.
 - **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán Create Mock Event Ingestion Endpoint feladat elkezdése
 
 ---
+
+### 🤖 Prompt #7
+
+> Create Mock Event Ingestion Endpoint kidolgozását kezdjük el
+
+### 🔍 AI Válasz Kiértékelése & Korrekció
+
+- **Mi volt jó:** Legenerálta a dto és controller file-t.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** injectálni akarta a controllerben a repository-kat, ami angular-ban valid, de nestjs továbbra is constructor-t használ, így javítottam
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán Mérföldkő 2 elkezdése
+
+---
+
+## 🗺️ 2. Mérföldkő: User View – Alert Management Dashboard
