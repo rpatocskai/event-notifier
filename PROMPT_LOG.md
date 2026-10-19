@@ -94,3 +94,16 @@
 ---
 
 ## 🗺️ 2. Mérföldkő: User View – Alert Management Dashboard
+
+### 🤖 Prompt #7
+
+> Create Angular Feature Module for Alert Configuration kidolgozását kezdjük el
+
+### 🔍 AI Válasz Kiértékelése & Korrekció
+
+- **Mi volt jó:** Interface, service és routing generálás.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** signalok használata behaviorSubject helyett, kódegyszerűsítés
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán Develop Reactive Alert Builder Form
+  feladat elkezdése
+
+---
