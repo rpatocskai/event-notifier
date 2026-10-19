@@ -107,3 +107,27 @@
   feladat elkezdése
 
 ---
+
+### 🤖 Prompt #8
+
+> Develop Reactive Alert Builder Form & Workspace kidolgozását kezdjük el
+
+### 🔍 AI Válasz Kiértékelése & Korrekció
+
+- **Mi volt jó:** Form implementáció.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** sima css-el csinálta először aztán tailwindre átalakítattam vele
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán routingolás megvalósítása
+
+---
+
+### 🤖 Prompt #9
+
+> Lazy loading kialakítás, admin-platform-ra is felkészítés, app komponens átalakítás felkészítás a routingolásra
+
+### 🔍 AI Válasz Kiértékelése & Korrekció
+
+- **Mi volt jó:** Routing és frame kialakítás.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** routing kiegészítés, hiba elhárítások
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán 3-s mérföldkő elkezdése
+
+---
