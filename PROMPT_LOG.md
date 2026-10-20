@@ -141,18 +141,18 @@
 
 - **Mi volt jó:** Listázó implementáció és workspace átalakítás.
 - **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:**
-- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán 3-mas mérföldkő elkezdése
+- **Következő lépés:** Generált kód tesztelése átnézése commit előtt, AI által halucionált dolgok javítása kézzel és AI-val.
 
 ---
 
 ### 🤖 Prompt #11
 
-> Jelenleg a Cors policy nem lett beállítva ezt állítsuk be, valamint custom üzeneteket, nem képes a rendszer kezelni, ezeket orvosoljuk customMessage property felvétele és ennek helyes kezelése in memory
+> Jelenleg a Cors policy nem lett beállítva ezt állítsuk be, valamint az alert neveket és új alerteket nem képes a rendszer kezelni, ezeket orvosoljuk in memory
 
 ### 🔍 AI Válasz Kiértékelése & Korrekció
 
-- **Mi volt jó:** Listázó implementáció és workspace átalakítás.
-- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** controller javítása halucináció miatt default listát adott csak vissza
+- **Mi volt jó:** Nagyjából megcsinálta a repository updatet.
+- **Amit ELUTASÍTOTTAM / JAVÍTOTTAM:** Repository update kézzel még, controller javítása halucináció miatt default listát adott csak vissza
 - **Következő lépés:** Generált kód tesztelése átnézése commit előtt, aztán 3-mas mérföldkő elkezdése
 
 ---
