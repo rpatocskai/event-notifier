@@ -63,8 +63,7 @@ import { AlertListComponent } from './alert-list.component'; // Importáljuk az 
                   <input
                     type="checkbox"
                     [checked]="isChannelSelected(channelsEnum.EMAIL)"
-                    (change
-                    toggleChannel)="toggleChannel(channelsEnum.EMAIL)"
+                    (change)="toggleChannel(channelsEnum.EMAIL)"
                     class="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                   />
                   <span>Email Channel</span>
@@ -75,8 +74,7 @@ import { AlertListComponent } from './alert-list.component'; // Importáljuk az 
                   <input
                     type="checkbox"
                     [checked]="isChannelSelected(channelsEnum.SLACK)"
-                    (change
-                    toggleChannel)="toggleChannel(channelsEnum.SLACK)"
+                    (change)="toggleChannel(channelsEnum.SLACK)"
                     class="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
                   />
                   <span>Slack Channel</span>
